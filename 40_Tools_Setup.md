@@ -229,6 +229,29 @@ bd init
 
 ---
 
+## 6. Future Extensions (Roadmap)
+
+These are recommended OpenCode plugins to enhance agent capabilities when needed. They are **OpenCode plugins** (installed via `opencode.json`), NOT Antigravity repo code.
+
+### 1. opencode-browser (Headless Browsing)
+- **Goal**: Allow agents to verify web apps visually or look up documentation.
+- **Capabilities**: `browser_open`, `browser_click`, `browser_screenshot`.
+- **Use When**: You need deployed verification (e.g., "Check if the H1 renders correctly on localhost").
+
+### 2. opencode-dcp (Development Context Protocol)
+- **Repo**: `@tarquinen/opencode-dcp`
+- **Goal**: Manage long context windows in massive tasks.
+- **Capabilities**: Compacts older conversation turns to keep context fresh.
+- **Use When**: Agents get "lost" or slow in long sessions (50+ turns).
+- **Note**: Must be listed **AFTER** `opencode-antigravity-auth` in config.
+
+### 3. opencode-rag (Local Knowledge)
+- **Goal**: Semantic search for large codebases.
+- **Capabilities**: "Find logic related to X" without reading every file.
+- **Use When**: Project grows >100 files and agents struggle to find relevant code.
+
+---
+
 ## References
 
 - [OpenCode Documentation](https://opencode.ai)
