@@ -85,6 +85,14 @@ If unsure about scope, impact, or correctness → **ASK** before proceeding.
 ### Verify Before Reporting Success
 Never claim success without running verification commands.
 
+### External Feedback Handling
+When user provides feedback from another model (ChatGPT, Claude, etc.):
+1. **Evaluate critically** - Don't accept as gospel
+2. **Check against our specs** - Does it align with BLUEPRINT/protocol?
+3. **Assess validity** - Is the point correct for OUR use case?
+4. **Document decisions** - Note what was accepted/rejected and why
+5. **Integrate selectively** - Take valid points, ignore style preferences
+
 ---
 
 ## 5. File Creation Conventions
