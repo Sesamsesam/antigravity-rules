@@ -53,7 +53,103 @@ A local AI coding agent/IDE that connects to various LLM providers.
 **Our Use:**  
 OpenCode is the **"Builder"** in the Bridge Protocol. It edits files based on prompts but does NOT run tests (the Watcher does that).
 
+### OpenCode Configuration Files
+
+OpenCode reads instructions from these locations (in order):
+
+| Location | Scope | Purpose |
+|----------|-------|---------|
+| `~/.config/opencode/AGENTS.md` | Global | Core rules for ALL projects |
+| `project/AGENTS.md` | Project | Project-specific instructions |
+| `.opencode/agent/*.md` | Project | Specialized agents (optional) |
+| `~/.config/opencode/opencode.json` | Global | OpenCode settings + plugins |
+
+### Global AGENTS.md Setup
+
+Create `~/.config/opencode/AGENTS.md`:
+
+```markdown
+# AGENTS.md (Global OpenCode)
+
+## Your Role
+You are the **Builder** in the Antigravity ecosystem.
+
+## Core Rules
+- User First: If >10% risk of being wrong → ASK
+- No-Ghost Policy: If a step fails, STOP and report
+- Professional Git: Never push to main, use conventional commits
+
+## File Creation Rules
+1. Search first: Does file exist? → UPDATE it
+2. Related file? → ADD section to it
+3. Truly new? → Create in correct location
+```
+
+### Project AGENTS.md
+
+Each project should have an `AGENTS.md` in the root with:
+
+```markdown
+# AGENTS.md - [Project Name]
+
+## Rules
+@docs/rules/AGENTS_CORE.md
+@docs/rules/AGENTS_BRIDGE.md
+
+## Build & Test
+[Project-specific commands]
+```
+
+### Specialized Agents (Optional)
+
+For task-specific agents, create files in `.opencode/agent/`:
+
+```
+.opencode/
+└── agent/
+    ├── refactor.md      # Specialized for refactoring
+    ├── test.md          # Specialized for writing tests
+    └── document.md      # Specialized for documentation
+```
+
+**Example: `.opencode/agent/refactor.md`**
+
+```markdown
 ---
+name: Refactor
+description: Specialized agent for code refactoring tasks
+---
+
+# Refactor Agent
+
+## Specialization
+You are specialized in refactoring code while maintaining behavior.
+
+## Rules
+1. Never change functionality, only improve structure
+2. Run tests before and after confirming behavior unchanged
+3. Make atomic commits for each refactor step
+```
+
+### OpenCode vs Antigravity: Key Differences
+
+| Aspect | Antigravity | OpenCode |
+|--------|-------------|----------|
+| Config file | `GEMINI.md` | `AGENTS.md` |
+| Auto-load folder | `.agent/rules/` ✅ | ❌ Not supported |
+| Global config | `~/.gemini/GEMINI.md` | `~/.config/opencode/AGENTS.md` |
+| Specialized agents | Not applicable | `.opencode/agent/*.md` |
+| Rule imports | `@path/to/file.md` | `@path/to/file.md` (same syntax) |
+
+### Tips for OpenCode
+
+1. **Use `/init`** to generate an initial AGENTS.md
+2. **Commit AGENTS.md** to version control
+3. **Check project AGENTS.md** first, then global
+4. **Specialized agents** are optional but help for recurring tasks
+
+---
+
 
 ## 2. opencode-antigravity-auth
 
