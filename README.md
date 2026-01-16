@@ -29,12 +29,13 @@ ls .agent/rules/*.md  # Should list all rules
 
 **If project is already set up:** Rules auto-load. Just start working!
 
-**If no project setup yet:** Tell the agent:
+**For automatic setup (new project):** Tell the agent:
 ```
-Read /Users/yeti/Documents/Antigravity/Rules/AGENTS_CORE.md
+Read and execute /Users/yeti/Documents/Antigravity/Rules/00_BOOTSTRAP.md
 ```
+This will automatically set up everything: global configs, submodule, symlink.
 
-**For complete context:** Tell the agent:
+**For complete context only (no auto-setup):**
 ```
 Read all .md files in /Users/yeti/Documents/Antigravity/Rules/
 ```
