@@ -47,10 +47,7 @@ antigravity-rules/
 ├── README.md                    # This file
 │
 └── archive/                     # Archived detailed specs
-    ├── 00_PRIME_DIRECTIVE.md
-    ├── 10_The_Workflow.md
-    ├── 20_The_Agent_Protocol.md
-    └── 30_The_Bridge_Protocol.md
+    └── 30_The_Bridge_Protocol.md  # Full 15-step state machine
 ```
 
 ---

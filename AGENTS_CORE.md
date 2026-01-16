@@ -89,6 +89,6 @@ Never claim success without running verification commands.
 
 ## References
 
-- [Full Prime Directive](./00_PRIME_DIRECTIVE.md)
-- [Workflow Details](./10_The_Workflow.md)
-- [Agent Protocol](./20_The_Agent_Protocol.md)
+- [Full Bridge Specification](./archive/30_The_Bridge_Protocol.md)
+- [Security Spec](./31_Secure_Watcher.md)
+- [Diamond Rules](./34_Diamond_Rules.md)
