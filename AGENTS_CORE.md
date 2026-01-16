@@ -119,6 +119,31 @@ Is there an existing file on this topic?
 - Random locations outside the folder structure
 - `/tmp/` or `~/Desktop/` for permanent files
 
+### Global Rules Workflow
+
+**When asked to create/update a GLOBAL rule:**
+
+```
+1. CREATE/EDIT in canonical location:
+   /Users/yeti/Documents/Antigravity/Rules/
+   
+2. COMMIT and PUSH to GitHub:
+   cd /Users/yeti/Documents/Antigravity/Rules
+   git add -A && git commit -m "..." && git push
+   
+3. UPDATE submodule in project:
+   cd /path/to/project
+   git submodule update --remote
+   git add docs/rules
+   git commit -m "chore: Bump rules"
+```
+
+**Never create global rules directly in:**
+- `project/docs/rules/` (this is a submodule, not the source)
+- `project/.agent/rules/` (this is a symlink to docs/rules/)
+
+**The canonical location IS the source. Projects reference it via submodule.**
+
 ### Naming Conventions
 - Use `snake_case` for files: `my_new_rule.md`
 - Use descriptive names: `00_GETTING_STARTED.md` not `doc1.md`
