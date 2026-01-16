@@ -2,29 +2,68 @@
 
 **Status**: ACTIVE | **Scope**: GLOBAL
 
-This document explains how to install and configure Antigravity rules in any project.
+Complete guide to installing Antigravity rules in any project. Follow this once and future setups take minutes.
 
 ---
 
-## Overview: Where Rules Live
+## Overview: Folder Conventions
 
-| Location | Scope | Auto-Loaded? | Purpose |
-|----------|-------|--------------|---------|
-| `~/.gemini/GEMINI.md` | Global (all projects) | ✅ Yes | Your personal coding identity |
-| `.agent/rules/*.md` | Workspace | ✅ Yes | Project-specific rules |
-| `.agent/workflows/*.md` | Workspace | On `/command` | Triggered actions |
-| `.agent/skills/*/SKILL.md` | Workspace | When relevant | On-demand capabilities |
-| `GEMINI.md` (project root) | Workspace | ✅ Yes | System-level project config |
-| `docs/rules/` (submodule) | Workspace | Via `@` reference | Shared rules across projects |
+| Location | Auto-Loaded? | Purpose |
+|----------|--------------|---------|
+| `~/.gemini/GEMINI.md` | ✅ Yes | Global identity (all projects) |
+| `.agent/rules/*.md` | ✅ Yes | Runtime rules (auto-injected) |
+| `.agent/workflows/*.md` | On `/command` | Triggered actions |
+| `.agent/skills/*/SKILL.md` | When relevant | Agent capabilities |
+| `GEMINI.md` (project root) | ✅ Yes | Project config |
+| `AGENTS.md` (project root) | ✅ Yes | OpenCode config |
+| `docs/rules/` | No (source) | Submodule (shared rules) |
 
 ---
 
-## 1. Set Up Global Identity
+## Quick Setup (5 Minutes)
 
-Create your personal identity file that applies to ALL projects:
+### Step 1: Clone with Submodules
 
 ```bash
-# Create/edit your global rules
+git clone --recurse-submodules <repo-url>
+cd <project>
+```
+
+### Step 2: Create Symlink (Option C)
+
+This makes all rules in `docs/rules/` auto-load via `.agent/rules/`:
+
+```bash
+# Remove existing .agent/rules/ folder
+rm -rf .agent/rules
+
+# Create symlink to submodule
+ln -s ../docs/rules .agent/rules
+
+# Verify symlink works
+ls -la .agent/rules/  # Should show -> ../docs/rules
+ls .agent/rules/*.md  # Should list all rule files
+```
+
+### Step 3: Verify Setup
+
+```bash
+# Check all components exist
+ls ~/.gemini/GEMINI.md        # Global identity
+ls GEMINI.md                  # Project config
+ls AGENTS.md                  # OpenCode config (optional)
+ls .agent/rules/              # Symlink to docs/rules/
+ls .agent/workflows/          # Workflow definitions
+ls .agent/skills/             # Skill definitions
+```
+
+---
+
+## Full Setup (New Project)
+
+### 1. Set Up Global Identity
+
+```bash
 cat > ~/.gemini/GEMINI.md << 'EOF'
 # Antigravity Global Identity
 
@@ -46,11 +85,7 @@ cat > ~/.gemini/GEMINI.md << 'EOF'
 EOF
 ```
 
----
-
-## 2. Add Shared Rules to a Project
-
-Add the antigravity-rules repo as a git submodule:
+### 2. Add Rules Submodule
 
 ```bash
 cd /path/to/your-project
@@ -63,10 +98,85 @@ git add .gitmodules docs/rules
 git commit -m "feat: Add Antigravity rules as submodule"
 ```
 
-### Updating Rules Later
+### 3. Create Symlink (Option C)
 
 ```bash
-# Pull latest rules
+# Create .agent structure
+mkdir -p .agent/workflows .agent/skills
+
+# Symlink rules to submodule (auto-load all rules)
+ln -s ../docs/rules .agent/rules
+
+# Verify
+ls .agent/rules/*.md
+```
+
+### 4. Create Project GEMINI.md
+
+```bash
+cat > GEMINI.md << 'EOF'
+# Project Name
+
+> Brief project description.
+
+## Security Specifications
+
+@docs/rules/31_Secure_Watcher.md
+@docs/rules/34_Diamond_Rules.md
+
+## Build & Test
+
+```bash
+# Your build commands here
+```
+EOF
+```
+
+### 5. Create AGENTS.md (for OpenCode)
+
+```bash
+cat > AGENTS.md << 'EOF'
+# AGENTS.md - Project Name
+
+## Your Role: The Builder
+
+You are the **Builder** in the Bridge Protocol.
+
+### Your Job ✅
+- Edit files as instructed
+- Use safe wrapper patterns
+
+### NOT Your Job ❌
+- Running tests (Watcher does this)
+- Managing git state
+
+## Rules
+@docs/rules/AGENTS_CORE.md
+@docs/rules/AGENTS_BRIDGE.md
+EOF
+```
+
+### 6. Add Workflows
+
+```bash
+# Create test workflow
+cat > .agent/workflows/test.md << 'EOF'
+---
+description: Run tests
+---
+# /test Workflow
+```bash
+npm test
+```
+EOF
+```
+
+---
+
+## Updating Rules
+
+```bash
+# Pull latest from rules repo
 git submodule update --remote --merge
 
 # Commit the update
@@ -74,174 +184,63 @@ git add docs/rules
 git commit -m "chore: Bump antigravity-rules to latest"
 ```
 
-### Cloning a Project with Rules
-
-```bash
-# Clone with submodules included
-git clone --recurse-submodules https://github.com/user/project.git
-
-# Or if already cloned:
-git submodule update --init --recursive
-```
-
 ---
 
-## 3. Create Project Root GEMINI.md
-
-Create a `GEMINI.md` in your project root that imports the shared rules:
-
-```markdown
-# Project Name
-
-> Brief project description.
-
-## Global Rules
-
-@docs/rules/AGENTS_CORE.md
-@docs/rules/AGENTS_BRIDGE.md
-
-## Project Overview
-
-[What this project does]
-
-## Build & Test
-
-\`\`\`bash
-[Build commands]
-\`\`\`
-
-## Key Files
-
-- `src/` - Source code
-- `docs/` - Documentation
-```
-
----
-
-## 4. Create Project-Specific Rules
-
-Create the `.agent/` folder structure:
-
-```bash
-mkdir -p .agent/rules .agent/workflows .agent/skills
-```
-
-### Rules (Auto-Loaded)
-
-Create `.agent/rules/project_rules.md`:
-
-```markdown
-# Project-Specific Rules
-
-## Coding Standards
-- [Your project-specific rules]
-
-## Testing Requirements
-- [What tests must pass]
-```
-
-### Workflows (Triggered by /command)
-
-Create `.agent/workflows/test.md`:
-
-```yaml
----
-description: Run tests
----
-
-# /test Workflow
-
-\`\`\`bash
-npm test
-\`\`\`
-```
-
----
-
-## 5. Create Skills (Optional)
-
-Skills are agent-triggered capabilities. Create in `.agent/skills/<skill_name>/SKILL.md`:
-
-```yaml
----
-name: Skill Name
-description: Brief description of when this skill should be used
----
-
-# Skill Name
-
-## When to Use
-[Describe scenarios]
-
-## How to Execute
-[Step-by-step instructions]
-
-## Example
-[Code or command example]
-```
-
----
-
-## Complete Example Structure
+## File Structure After Setup
 
 ```
 your-project/
+├── GEMINI.md                    # Project config (Antigravity)
+├── AGENTS.md                    # Project config (OpenCode)
 ├── .agent/
-│   ├── rules/
-│   │   └── project_rules.md     # Project-specific rules
+│   ├── rules/ → ../docs/rules  # SYMLINK to submodule
 │   ├── workflows/
-│   │   ├── test.md              # /test command
-│   │   └── build.md             # /build command
+│   │   └── test.md
 │   └── skills/
-│       └── deploy/
-│           └── SKILL.md         # Deployment skill
+│       └── (your skills)
 ├── docs/
-│   └── rules/                   # ← Git submodule (antigravity-rules)
-│       ├── AGENTS_CORE.md
-│       ├── AGENTS_BRIDGE.md
+│   └── rules/                   # Git submodule (source files)
+│       ├── AGENTS_CORE.md       # Core identity
+│       ├── AGENTS_BRIDGE.md     # Bridge contract
+│       ├── 31_Secure_Watcher.md # Security spec
+│       ├── 32_Docker_Sandbox.md # Docker policy
+│       ├── 34_Diamond_Rules.md  # Diamond rules
 │       └── ...
-├── GEMINI.md                    # Project root config
-└── ...
+└── src/
 ```
 
 ---
 
 ## Troubleshooting
 
-### Rules Not Being Applied
+### Symlink Not Working
 
-1. Check that `~/.gemini/GEMINI.md` exists and has content
-2. Verify `.agent/rules/` files have `.md` extension
-3. Ensure `GEMINI.md` in project root uses correct `@` paths
+```bash
+# Check if symlink exists
+ls -la .agent/rules/
 
-### Submodule Not Cloning
+# If broken, recreate
+rm -rf .agent/rules
+ln -s ../docs/rules .agent/rules
+```
+
+### Submodule Empty
 
 ```bash
 git submodule update --init --recursive
 ```
 
-### Editing Global Rules
+### Rules Not Auto-Loading
 
-```bash
-# Edit in your canonical copy
-cd ~/Documents/Antigravity/Rules
-vim AGENTS_CORE.md
-
-# Commit and push
-git add .
-git commit -m "docs: Update core rules"
-git push
-
-# Then update in each project
-cd /path/to/project
-git submodule update --remote
-git commit -am "chore: Bump rules"
-```
+1. Verify `.agent/rules/` is a symlink: `ls -la .agent/`
+2. Check symlink target exists: `ls docs/rules/`
+3. Verify files are `.md` extension
 
 ---
 
 ## References
 
 - [AGENTS_CORE.md](./AGENTS_CORE.md) - Core protocol
-- [AGENTS_BRIDGE.md](./AGENTS_BRIDGE.md) - Bridge execution contract
-- [30_The_Bridge_Protocol.md](./30_The_Bridge_Protocol.md) - Full specification
+- [AGENTS_BRIDGE.md](./AGENTS_BRIDGE.md) - Bridge contract
+- [40_Tools_Setup.md](./40_Tools_Setup.md) - Tool installation
+- [archive/30_The_Bridge_Protocol.md](./archive/30_The_Bridge_Protocol.md) - Full spec

@@ -1,6 +1,6 @@
 # Antigravity Rules
 
-**Status**: ACTIVE | **Version**: Production v1.0  
+**Status**: ACTIVE | **Version**: Production v2.0  
 **Repository**: `github.com/sesamsesam/antigravity-rules`
 
 A modular, reusable AI agent instruction framework. These rules govern AI behavior across all Antigravity projects.
@@ -9,110 +9,20 @@ A modular, reusable AI agent instruction framework. These rules govern AI behavi
 
 ## Quick Start
 
-### Adding Rules to a New Project
+See **[50_Rules_Installation.md](./50_Rules_Installation.md)** for complete setup instructions.
+
+### 5-Minute Setup
 
 ```bash
-cd /path/to/your-project
+# 1. Add submodule
+git submodule add https://github.com/Sesamsesam/antigravity-rules.git docs/rules
 
-# Add this repo as a submodule
-git submodule add https://github.com/sesamsesam/antigravity-rules.git docs/rules
+# 2. Create symlink for auto-loading
+mkdir -p .agent/workflows .agent/skills
+ln -s ../docs/rules .agent/rules
 
-# Commit the submodule
-git add .gitmodules docs/rules
-git commit -m "feat: Add Antigravity rules as submodule"
-```
-
-### Create Your Project's AGENTS.md
-
-Create `AGENTS.md` in your project root:
-
-```markdown
-# AGENTS.md
-
-## Global Rules
-@docs/rules/AGENTS_CORE.md
-@docs/rules/AGENTS_BRIDGE.md
-
-## Project Overview
-[Your project description here]
-
-## Build & Test
-[Your build commands here]
-```
-
-That's it! OpenCode will import the global rules via `@` references.
-
----
-
-## Updating Rules in a Project
-
-When global rules are updated, pull the latest into your project:
-
-```bash
-cd /path/to/your-project
-
-# Update submodule to latest commit
-git submodule update --remote --merge
-
-# Commit the updated pointer
-git add docs/rules
-git commit -m "chore: Bump antigravity-rules to latest"
-git push
-```
-
----
-
-## Editing Global Rules
-
-When you need to update the global rules themselves:
-
-### Option A: Edit from Local Canonical Folder
-
-```bash
-# Go to local rules folder
-cd ~/Documents/Antigravity/Rules
-
-# Make your changes
-vim AGENTS_CORE.md
-
-# Commit and push
-git add .
-git commit -m "feat: Update worker lock policy"
-git push
-```
-
-### Option B: Edit from Within a Project
-
-```bash
-cd /path/to/your-project/docs/rules
-
-# Make your changes
-vim AGENTS_BRIDGE.md
-
-# Commit and push (this pushes to the rules repo!)
-git add .
-git commit -m "fix: Clarify retry policy"
-git push
-
-# Back in project root, update the submodule pointer
-cd ../..
-git add docs/rules
-git commit -m "chore: Bump rules (retry policy fix)"
-git push
-```
-
----
-
-## Cloning a Project with Rules
-
-When cloning a project that uses this submodule:
-
-```bash
-# Clone with submodules
-git clone --recurse-submodules https://github.com/user/project.git
-
-# Or if already cloned without submodules:
-git submodule update --init --recursive
+# 3. Verify
+ls .agent/rules/*.md  # Should list all rules
 ```
 
 ---
@@ -121,83 +31,61 @@ git submodule update --init --recursive
 
 ```
 antigravity-rules/
+│
+├── # RUNTIME RULES (auto-injected via .agent/rules/)
+├── AGENTS_CORE.md               # Core identity, git workflow
+├── AGENTS_BRIDGE.md             # Bridge execution contract
+├── 31_Secure_Watcher.md         # Security specification
+├── 32_Docker_Sandbox_Policy.md  # Docker security config
+├── 34_Diamond_Rules.md          # 10 cardinal rules
+│
+├── # SETUP GUIDES (reference only)
+├── 33_Repo_Separation.md        # Multi-repo strategy
+├── 40_Tools_Setup.md            # Install OpenCode, Beads, etc.
+├── 50_Rules_Installation.md     # Complete installation guide
+├── 99_OpenCode_Config.md        # OpenCode entry point
 ├── README.md                    # This file
-├── AGENTS_CORE.md               # Prime Directive, Workflow, Agent Identity
-├── AGENTS_BRIDGE.md             # Bridge Protocol execution contract
-├── 30_The_Bridge_Protocol.md    # Full technical specification
-├── 00_PRIME_DIRECTIVE.md        # Foundational principles
-├── 10_The_Workflow.md           # Professional Git workflow
-├── 20_The_Agent_Protocol.md     # Agent roles and handoff
-└── 99_OpenCode_Config.md        # OpenCode-specific configuration
+│
+└── archive/                     # Archived detailed specs
+    ├── 00_PRIME_DIRECTIVE.md
+    ├── 10_The_Workflow.md
+    ├── 20_The_Agent_Protocol.md
+    └── 30_The_Bridge_Protocol.md
 ```
-
----
-
-## How It Works
-
-```
-Global (this repo)              Project (your repo)
-┌─────────────────┐            ┌─────────────────┐
-│ AGENTS_CORE.md  │◄───────────│ AGENTS.md       │
-│ AGENTS_BRIDGE.md│   @import  │ (uses @ refs)   │
-│ 30_Bridge_...   │            │                 │
-└─────────────────┘            └─────────────────┘
-         ▲
-    Git Submodule (docs/rules/)
-```
-
-1. **Global Rules** live in this repo (single source of truth)
-2. **Projects** add this repo as a Git submodule to `docs/rules/`
-3. **AGENTS.md** in each project uses `@` syntax to import global rules
-4. **Updates** are pulled via `git submodule update --remote`
 
 ---
 
 ## Core Files
 
-### `AGENTS_CORE.md`
-Essential operational rules:
-- **Prime Directive**: User first, no ghost policy, documentation
-- **Workflow**: Professional Git (never push to main, conventional commits)
-- **Agent Identity**: Planner, Coder, OpenCode roles
+### Runtime Rules (Auto-Loaded)
 
-### `AGENTS_BRIDGE.md`
-Bridge Protocol execution contract:
-- **Watcher-OpenCode Contract**: Watcher verifies, OpenCode edits
-- **Deterministic Order**: Safety check → Lock → Edit → Audit → Verify → Result
-- **Critical Guarantees**: Always write result, stop on failure, auto-branch
+| File | Purpose |
+|------|---------|
+| `AGENTS_CORE.md` | Prime directive, git workflow, agent identity |
+| `AGENTS_BRIDGE.md` | Watcher-OpenCode execution contract |
+| `31_Secure_Watcher.md` | Security invariants, safe wrappers |
+| `32_Docker_Sandbox_Policy.md` | Docker flags and mount rules |
+| `34_Diamond_Rules.md` | 10 rules to never forget |
 
-### `30_The_Bridge_Protocol.md`
-Full technical specification:
-- Complete 15-step state machine
-- Task and Result JSON schemas
-- Canonical reason enum
-- Redaction patterns and size caps
-- Operations runbook
+### Setup Guides
 
----
-
-## Command Reference
-
-| Action | Command |
-|--------|---------|
-| Add submodule | `git submodule add https://github.com/sesamsesam/antigravity-rules.git docs/rules` |
-| Update submodule | `git submodule update --remote --merge` |
-| Clone with submodules | `git clone --recurse-submodules <url>` |
-| Init submodules after clone | `git submodule update --init --recursive` |
-| Push rule changes | (from docs/rules) `git push` |
+| File | Purpose |
+|------|---------|
+| `50_Rules_Installation.md` | **Start here** - Complete setup guide |
+| `40_Tools_Setup.md` | Install OpenCode, Beads, auth plugins |
+| `33_Repo_Separation.md` | Why Bridge is separate from app |
+| `99_OpenCode_Config.md` | OpenCode-specific imports |
 
 ---
 
-## No-Regression Policy
+## Updating Rules
 
-**Do not remove or weaken reliability guarantees.**
-
-1. **Idempotency**: Skip if result exists + Stale Lock Recovery
-2. **Single Worker**: Worker Lock (FIFO, TTL-based)
-3. **Safety**: Dirty Block + Auto-Branch
-4. **Audit**: Pre/Post Patches + Redacted Logs + Git Status
-5. **Always Write Result**: No silent failures
+```bash
+# In your project
+git submodule update --remote --merge
+git add docs/rules
+git commit -m "chore: Bump rules"
+```
 
 ---
 
@@ -205,10 +93,5 @@ Full technical specification:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v2.0 | 2026-01-16 | Symlink strategy, archived redundant files |
 | v1.0 | 2026-01-15 | Production Edition - Full Bridge Protocol |
-
----
-
-## License
-
-Internal use. Adapt as needed for your projects.
