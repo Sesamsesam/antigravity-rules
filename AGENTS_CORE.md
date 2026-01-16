@@ -89,10 +89,19 @@ Never claim success without running verification commands.
 
 ## 5. File Creation Conventions
 
-### Before Creating Any File
-1. **Check if it exists** - Search the codebase first
-2. **Check for similar files** - Maybe update an existing file instead
-3. **Check the folder structure** - Put files where they belong
+### Before Creating Any File - STOP and Check
+1. **Search first**: Does this file already exist? → **UPDATE it**
+2. **Related file?**: Is there a file covering this topic? → **ADD to it**
+3. **Truly new?**: Only create if neither 1 nor 2 applies
+
+### Update vs Create Decision
+```
+Is there an existing file on this topic?
+  ├── YES → Update the existing file
+  └── NO → Is there a related file that should include this?
+              ├── YES → Add a section to that file
+              └── NO → Create a new file in the correct location
+```
 
 ### Where to Put New Files
 
