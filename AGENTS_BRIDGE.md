@@ -138,4 +138,4 @@ For complete technical details including:
 - Lock metadata format
 - All redaction patterns
 
-See: [30_The_Bridge_Protocol.md](./30_The_Bridge_Protocol.md)
+See: [30_The_Bridge_Protocol.md](./archive/30_The_Bridge_Protocol.md)
