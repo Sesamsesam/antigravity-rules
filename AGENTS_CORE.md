@@ -87,6 +87,36 @@ Never claim success without running verification commands.
 
 ---
 
+## 5. File Creation Conventions
+
+### Before Creating Any File
+1. **Check if it exists** - Search the codebase first
+2. **Check for similar files** - Maybe update an existing file instead
+3. **Check the folder structure** - Put files where they belong
+
+### Where to Put New Files
+
+| Type | Location |
+|------|----------|
+| **Rules** (auto-injected) | `.agent/rules/` (or via submodule) |
+| **Workflows** | `.agent/workflows/` |
+| **Skills** | `.agent/skills/<name>/SKILL.md` |
+| **Source code** | `src/` (follow existing structure) |
+| **Project docs** | `docs/guides/` or `docs/architecture/` |
+| **Global rules** | Push to antigravity-rules repo |
+
+### Never Create Files In
+- Project root (unless config files)
+- Random locations outside the folder structure
+- `/tmp/` or `~/Desktop/` for permanent files
+
+### Naming Conventions
+- Use `snake_case` for files: `my_new_rule.md`
+- Use descriptive names: `00_GETTING_STARTED.md` not `doc1.md`
+- Prefix with numbers for ordering: `00_`, `01_`, etc.
+
+---
+
 ## References
 
 - [Full Bridge Specification](./archive/30_The_Bridge_Protocol.md)
