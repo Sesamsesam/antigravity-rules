@@ -11,7 +11,7 @@ A modular, reusable AI agent instruction framework. These rules govern AI behavi
 
 See **[50_Rules_Installation.md](./50_Rules_Installation.md)** for complete setup instructions.
 
-### 5-Minute Setup
+### 5-Minute Setup (New Project)
 
 ```bash
 # 1. Add submodule
@@ -24,6 +24,27 @@ ln -s ../docs/rules .agent/rules
 # 3. Verify
 ls .agent/rules/*.md  # Should list all rules
 ```
+
+### New Session Quick Start
+
+**If project is already set up:** Rules auto-load. Just start working!
+
+**If no project setup yet:** Tell the agent:
+```
+Read /Users/yeti/Documents/Antigravity/Rules/AGENTS_CORE.md
+```
+
+**For complete context:** Tell the agent:
+```
+Read all .md files in /Users/yeti/Documents/Antigravity/Rules/
+```
+
+### Priority Reading Order
+
+If you want manual control, read in this order:
+1. `AGENTS_CORE.md` - Core identity and file rules
+2. `AGENTS_BRIDGE.md` - Bridge execution contract
+3. `34_Diamond_Rules.md` - The 10 non-negotiables
 
 ---
 
