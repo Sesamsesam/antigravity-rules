@@ -159,6 +159,24 @@ Is there an existing file on this topic?
 
 ---
 
+## 6. CSS/Styling Conventions
+
+### No Inline Styles
+- **Never use inline `style={{}}` for reusable patterns**
+- Use CSS classes + CSS custom properties instead
+- Single source of truth: one CSS file change should update all components
+
+### Design System First
+- Establish semantic classes upfront (e.g., `.surface-card`, `.text-primary`)
+- Define CSS custom properties for colors, spacing, typography
+- Create the design system in `global.css` (or equivalent) BEFORE building components
+
+### Exception: Dynamic Values Only
+Inline `style={{}}` is acceptable ONLY for:
+- Computed positions (e.g., `left: ${x}px`)
+- Values derived from state/props that can't be expressed as classes
+- One-off layout adjustments that are truly unique
+
 ## References
 
 - [Full Bridge Specification](./archive/30_The_Bridge_Protocol.md)

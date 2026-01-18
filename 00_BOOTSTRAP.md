@@ -42,6 +42,12 @@ cat > ~/.gemini/GEMINI.md << 'EOF'
 ## Professional Git
 - Never push directly to `main`
 - Use Conventional Commits: `feat:`, `fix:`, `docs:`, `chore:`
+
+## CSS/Styling
+- **No inline styles** - Use CSS classes + CSS custom properties
+- Establish a design system upfront (semantic classes like `.surface-card`, `.text-primary`)
+- Inline `style={{}}` only for truly dynamic values (e.g., computed positions)
+- Single source of truth: one CSS file change should update all components
 EOF
 ```
 
