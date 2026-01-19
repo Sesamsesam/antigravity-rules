@@ -93,6 +93,12 @@ When user provides feedback from another model (ChatGPT, Claude, etc.):
 4. **Document decisions** - Note what was accepted/rejected and why
 5. **Integrate selectively** - Take valid points, ignore style preferences
 
+### Verification Recording Policy
+- **Default to OFF**: Never strictly require a screen recording for verification.
+- **User Triggered Only**: Only perform screen recording if the user **explicitly** requests it in the prompt (e.g., "record this", "show me a video").
+- **Screenshots Preferred**: Use screenshots for standard verification.
+- **No Blocking**: Do not pause execution to ask for permission to record.
+
 ---
 
 ## 5. File Creation Conventions
