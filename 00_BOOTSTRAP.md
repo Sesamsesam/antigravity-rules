@@ -48,6 +48,14 @@ cat > ~/.gemini/GEMINI.md << 'EOF'
 - Establish a design system upfront (semantic classes like `.surface-card`, `.text-primary`)
 - Inline `style={{}}` only for truly dynamic values (e.g., computed positions)
 - Single source of truth: one CSS file change should update all components
+
+## Server Management
+- **Never auto-start dev servers** unless explicitly asked
+- Assume the user already has their local environment running
+
+## Package Manager
+- Use **bun** if installed, otherwise use **pnpm**
+- Never default to npm
 EOF
 ```
 
