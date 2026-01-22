@@ -20,6 +20,26 @@ Read and execute /Users/yeti/Documents/Antigravity/Rules/00_BOOTSTRAP.md
 
 ---
 
+## ⚠️ Common Mistakes — AVOID THESE
+
+**The #1 Rule: All edits happen at the canonical location FIRST**
+
+| ❌ Wrong | ✅ Right |
+|----------|----------|
+| Editing any file in `project/docs/rules/` | Edit in `/Users/yeti/Documents/Antigravity/Rules/` |
+| Editing any file in `project/.agent/rules/` | Same — it's a symlink to docs/rules |
+| Editing `~/.gemini/GEMINI.md` directly | Edit the source template in canonical, re-run bootstrap |
+| Creating a new rule file in a project | Create in canonical, update this README's index, push, then submodule update |
+
+**Why?** 
+- `project/docs/rules/` = readonly submodule (reference, not source)
+- `project/.agent/rules/` = symlink (not even a real folder)
+- `~/.gemini/GEMINI.md` = applied output (template lives in canonical)
+
+**The only writable location is:** `/Users/yeti/Documents/Antigravity/Rules/`
+
+---
+
 ## 📖 Index by Category
 
 ### Category 1: Core Identity & Behavior
